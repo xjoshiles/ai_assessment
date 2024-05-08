@@ -8,12 +8,13 @@ dataset = pd.read_csv('Dataset of Diabetes.csv')
 dataset = dataset.drop(['ID', 'No_Pation'], axis=1)
 dataset['Gender'] = dataset['Gender'].map(lambda g: g.upper())
 dataset['CLASS']  = dataset['CLASS'].map(lambda c: c.strip())
+dataset.drop_duplicates(inplace=True)
 
 # Splitting our dataset into features (X) and labels (Y):
 X = dataset.drop(['CLASS'], axis=1)
 Y = dataset['CLASS']
 
-# Encoding categorical features:
+# Integer encoding categorical features:
 X['Gender'] = pd.Categorical(dataset['Gender']).codes
 
 # One-Hot encode output labels:

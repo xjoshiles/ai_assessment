@@ -1,7 +1,10 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
-from sklearn.model_selection import train_test_split
+from sklearn.model_selection import GridSearchCV, train_test_split
+from sklearn.neural_network import MLPClassifier
+from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import MinMaxScaler
 
 # Data preprocessing:
 dataset = pd.read_csv('Dataset of Diabetes.csv')
@@ -23,4 +26,18 @@ Y = pd.get_dummies(Y)
 # Splitting the dataset into training and test sets:
 X_train, X_test, Y_train, Y_test = train_test_split(
     X, Y, test_size=0.2, random_state=1, stratify=Y)
+
+# Set up a pipeline to be passed to GridSearchCV:
+pipe = Pipeline(steps=[
+    ("scaler", MinMaxScaler()),
+    ("model",  MLPClassifier(max_iter=8000, random_state=2))
+])
+
+# Set up a hyperparameter grid to be passed to GridSearchCV:
+param_grid = {'model__hidden_layer_sizes': [(3, 3), (4, 4), (5, 5), (6, 6)],
+              'model__activation': ['relu', 'logistic'],
+              'model__solver': ['lbfgs', 'adam'],
+              'model__alpha': [0.01, 0.001, 0.0001],
+              'model__batch_size': [10, 25, 50, 100]
+              }
 

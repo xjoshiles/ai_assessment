@@ -41,3 +41,17 @@ param_grid = {'model__hidden_layer_sizes': [(3, 3), (4, 4), (5, 5), (6, 6)],
               'model__batch_size': [10, 25, 50, 100]
               }
 
+# Set up GridSearchCV:
+search = GridSearchCV(estimator=pipe,
+                      param_grid=param_grid,
+                      cv=5,       # 5-fold cross-validation
+                      scoring='accuracy',
+                      n_jobs=-1,  # use all processors
+                      refit=True)
+
+# Fit the grid search using the training data:
+search.fit(X_train, Y_train)
+
+
+
+

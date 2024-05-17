@@ -1,5 +1,3 @@
-import numpy as np
-import matplotlib.pyplot as plt
 import pandas as pd
 from sklearn.model_selection import GridSearchCV, train_test_split
 from sklearn.neural_network import MLPClassifier
@@ -41,7 +39,7 @@ param_grid = {'model__hidden_layer_sizes': [(3, 3), (4, 4), (5, 5), (6, 6)],
               'model__batch_size': [10, 25, 50, 100]
               }
 
-# Set up GridSearchCV:
+# Set up the grid search:
 search = GridSearchCV(estimator=pipe,
                       param_grid=param_grid,
                       cv=5,       # 5-fold cross-validation
@@ -49,9 +47,13 @@ search = GridSearchCV(estimator=pipe,
                       n_jobs=-1,  # use all processors
                       refit=True)
 
-# Fit the grid search using the training data:
+# Fit and validate all models in the grid search using the training set:
 search.fit(X_train, Y_train)
 
+# Get best-found estimator (model) and its scaler:
+scaler = search.best_estimator_.named_steps['scaler']
+model  = search.best_estimator_.named_steps['model']
 
-
-
+# Print the best found parameters:
+print("The best-found parameters are:")
+print(model)

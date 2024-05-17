@@ -55,5 +55,4 @@ scaler = search.best_estimator_.named_steps['scaler']
 model  = search.best_estimator_.named_steps['model']
 
 # Print the best found parameters:
-print("The best-found parameters are:")
-print(model)
+print(f'The best-found parameters are:\n{model}')
